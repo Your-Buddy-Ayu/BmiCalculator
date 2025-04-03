@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bmi Calculator</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            box-shadow: 0px 0px 20px 0px #afafaf;
+            width: 40vw;
+            min-height: 72vh;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        input {
+            padding: 8px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: rgb(65, 176, 228);
+            font-size: 22px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        #res {
+            text-align: center;
+            font-size: 24px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form id="mainForm">
+            <div>
+                <label for="kg">Weight (in kg )</label>
+                <input type="text" id="kg">
+            </div>
+            <div>
+                <label for="feet">Height (in feet )</label>
+                <input type="text" id="feet">
+            </div>
+            <button type="submit">Get BMI</button>
+        </form>
+        <div id="res"></div>
+    </div>
+
+    <script>
+        const form = document.getElementById("mainForm");
+        const res = document.getElementById("res");
+        form.addEventListener("submit", (e) => {
+            e.preventDefault()
+            let height = document.getElementById("feet").value;
+            let weight = document.getElementById("kg").value;
+            let feet = height.slice(0, 1) * 30.48;
+            let inches = height.slice(2) * 2.54;
+            let mtr = Number((((inches + feet) / 100) ** 2).toFixed(2));
+            let BMI = Number((weight / mtr).toFixed(1))
+            let category;
+            if (BMI < 18.5) {
+                category = "'Underweight' you need to gain weight"
+            } else if (BMI >= 18.5 && BMI < 25) {
+                category = "'Normalweight' Looks Good"
+            } else if (BMI >= 25 && BMI < 30) {
+                category = "'Overweight' you need to loss your weight"
+            } else if (BMI >= 30) {
+                if(BMI <35){
+                    category = "'Obesity face I' you need to loss your weight"
+                }else if(BMI <40 && BMI >35){
+                    category = "'Obesity face II' you need to loss your weight"
+                }else{
+                    category = "'Obesity face III' you need to loss your weight ASAP"
+                }
+            }
+            res.innerHTML = `<strong>${BMI} means ${category}</strong>`
+        })
+    </script>
+
+</body>
+
+</html>
